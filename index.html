@@ -3,50 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>svatoslavik — bio</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <title>Сайт занят</title>
+    <style>
+        /* Стили прямо в HTML, чтобы ничего не сломалось */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff; /* Белый фон */
+            color: #000000; /* Черный текст */
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center; /* По центру по горизонтали */
+            align-items: center; /* По центру по вертикали */
+            height: 100vh; /* На всю высоту экрана */
+            text-align: center;
+        }
+        h1 {
+            font-size: 48px; /* Большой размер текста */
+            font-weight: bold; /* Жирный */
+            text-transform: uppercase; /* Большие буквы */
+            margin: 0;
+        }
+    </style>
 </head>
 <body>
-    <!-- Фоновое видео с YouTube (autoplay, mute, loop) -->
-    <div class="video-bg">
-        <iframe
-            src="https://www.youtube.com/embed/8Zuh44rji24?autoplay=1&mute=1&loop=1&playlist=8Zuh44rji24&controls=0&showinfo=0&modestbranding=1&rel=0&playsinline=1"
-            title="bg video"
-            frameborder="0"
-            allow="autoplay; encrypted-media"
-            allowfullscreen>
-        </iframe>
-    </div>
 
-    <div class="container">
-        <!-- Аватарка -->
-        <img src="https://i.pinimg.com/736x/8f/c2/76/8fc2768c4f2d309a74652fda831b24e8.jpg" alt="avatar" class="avatar">
+    <h1>САЙТ ЗАНЯТ</h1>
 
-        <h1 class="username">svatoslavik</h1>
-        <p class="bio">just a chill guy</p>
-
-        <div class="links">
-            <a href="https://t.me/defau11t" target="_blank" class="link-btn">
-                <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="tg"> Telegram
-            </a>
-            <a href="https://discord.com" target="_blank" class="link-btn">
-                <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="ds"> Discord
-            </a>
-            <a href="https://github.com/svatoslavik228-collab" target="_blank" class="link-btn">
-                <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="gh"> GitHub
-            </a>
-        </div>
-    </div>
-
-    <!-- Аудио (зацикленное) -->
-    <audio id="bg-audio" loop>
-        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lofi-study-112191.mp3" type="audio/mpeg">
-    </audio>
-
-    <!-- Кнопка включения/выключения музыки -->
-    <button id="music-toggle" class="music-btn" aria-label="toggle music">🔇</button>
-
-    <script src="script.js"></script>
 </body>
 </html>
