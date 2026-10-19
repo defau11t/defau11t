@@ -2,131 +2,198 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
 }
 
 body {
-    height: 100vh;
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     overflow: hidden;
-    background-color: #000;
+    color: #fff;
+    position: relative;
 }
 
-/* Фон */
-#bg-video {
-    position: absolute;
+/* --- Фоновое видео с YouTube --- */
+.video-bg {
+    position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    width: 100vw;
+    height: 100vh;
     z-index: -1;
-    filter: blur(5px) brightness(0.4);
-    transform: scale(1.05);
+    overflow: hidden;
+    pointer-events: none; /* клики проходят сквозь видео */
+    background: #000;
 }
 
-/* Основной блок (эффект стекла) */
+.video-bg iframe {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* Растягиваем, чтобы всегда заполняло экран (16:9) */
+    width: 177.78vh;
+    height: 56.25vw;
+    min-width: 100vw;
+    min-height: 100vh;
+    transform: translate(-50%, -50%);
+    border: 0;
+}
+
+/* Затемняющая подложка, чтобы текст читался */
+.video-bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    pointer-events: none;
+}
+
+/* --- Стеклянный контейнер --- */
 .container {
-    background: rgba(20, 20, 20, 0.6);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    padding: 40px 30px;
-    width: 90%;
-    max-width: 400px;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    color: #fff;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    animation: fadeIn 0.8s ease-out;
+    padding: 40px 50px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+    animation: fadeIn 0.8s ease;
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: translateY(15px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Аватарка */
+/* --- Аватарка --- */
 .avatar {
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    margin-bottom: 15px;
-    transition: transform 0.3s ease;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 .avatar:hover {
+    box-shadow: 0 0 25px rgba(0, 200, 255, 0.9);
     transform: scale(1.05);
 }
 
-/* Текст */
+/* --- Имя и био --- */
 .username {
-    font-size: 24px;
+    margin-top: 18px;
+    font-size: 1.6rem;
     font-weight: 600;
-    margin-bottom: 5px;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
 }
 
 .bio {
-    font-size: 14px;
-    color: #bbb;
-    margin-bottom: 25px;
+    margin-top: 6px;
+    font-size: 0.95rem;
+    opacity: 0.85;
 }
 
-/* Кнопки ссылок */
+/* --- Кнопки ссылок --- */
 .links {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     gap: 12px;
+    margin-top: 26px;
+    justify-content: center;
 }
 
 .link-btn {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 10px;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 12px;
-    border-radius: 12px;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     color: #fff;
     text-decoration: none;
-    font-size: 15px;
-    transition: all 0.2s ease;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .link-btn img {
     width: 20px;
     height: 20px;
-    filter: invert(1);
+    filter: brightness(0) invert(1); /* делаем иконки белыми */
 }
 
 .link-btn:hover {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.25);
     transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
 }
 
-/* Кнопка музыки */
+/* --- Кнопка музыки --- */
 .music-btn {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: white;
-    width: 45px;
-    height: 45px;
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 2;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
-    font-size: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: #fff;
+    font-size: 1.4rem;
     cursor: pointer;
-    backdrop-filter: blur(5px);
-    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .music-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.25);
+    transform: scale(1.08);
+}
+
+.music-btn.playing {
+    box-shadow: 0 0 18px rgba(0, 200, 255, 0.9);
+}
+
+/* --- Мобильная адаптация --- */
+@media (max-width: 480px) {
+    .container {
+        padding: 30px 22px;
+        margin: 0 14px;
+    }
+
+    .avatar {
+        width: 96px;
+        height: 96px;
+    }
+
+    .username {
+        font-size: 1.35rem;
+    }
+
+    .link-btn {
+        padding: 9px 14px;
+        font-size: 0.82rem;
+    }
+
+    .music-btn {
+        bottom: 16px;
+        right: 16px;
+        width: 50px;
+        height: 50px;
+    }
 }

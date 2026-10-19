@@ -1,12 +1,28 @@
 const audio = document.getElementById('bg-audio');
-const btn = document.getElementById('music-toggle');
+const toggleBtn = document.getElementById('music-toggle');
 
-btn.addEventListener('click', () => {
+// Попытка включить музыку при первом клике по странице
+function tryPlay() {
+    audio.play().then(() => {
+        toggleBtn.textContent = '🔊';
+        toggleBtn.classList.add('playing');
+    }).catch(() => {
+        // Браузер заблокировал автоплей — ждём клика пользователя
+        toggleBtn.textContent = '🔇';
+        toggleBtn.classList.remove('playing');
+    });
+}
+
+// Клик по кнопке — вкл/выкл
+toggleBtn.addEventListener('click', () => {
     if (audio.paused) {
-        audio.play();
-        btn.textContent = '🔊'; // Включаем звук
+        tryPlay();
     } else {
         audio.pause();
-        btn.textContent = '🔇'; // Выключаем звук
+        toggleBtn.textContent = '🔇';
+        toggleBtn.classList.remove('playing');
     }
 });
+
+// Пробуем запустить музыку при загрузке страницы (может блокироваться)
+window.addEventListener('load', tryPlay);
