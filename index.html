@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>my bio</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Фоновое видео (можешь заменить ссылку на свое видео) -->
+    <video autoplay loop muted playsinline id="bg-video">
+        <source src="https://cdn.pixabay.com/video/2020/08/12/46778-451821751_large.mp4" type="video/mp4">
+    </video>
+
+    <div class="container">
+        <!-- Аватарка (замени ссылку на свою) -->
+        <img src="https://i.pinimg.com/736x/8f/c2/76/8fc2768c4f2d309a74652fda831b24e8.jpg" alt="avatar" class="avatar">
+        
+        <h1 class="username">svatoslavik</h1>
+        <p class="bio">just a chill guy</p>
+
+        <div class="links">
+            <a href="https://t.me/your_tg" target="_blank" class="link-btn">
+                <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="tg"> Telegram
+            </a>
+            <a href="https://discord.com" target="_blank" class="link-btn">
+                <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="ds"> Discord
+            </a>
+            <a href="https://github.com/svatoslavik228-collab" target="_blank" class="link-btn">
+                <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="gh"> GitHub
+            </a>
+        </div>
+    </div>
+
+    <!-- Аудио плеер (замени ссылку на свой .mp3) -->
+    <audio id="bg-audio" loop>
+        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lofi-study-112191.mp3" type="audio/mpeg">
+    </audio>
+    
+    <!-- Кнопка включения музыки -->
+    <button id="music-toggle" class="music-btn">🔇</button>
+
+    <script src="script.js"></script>
+</body>
+</html>
