@@ -5,32 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>defau11t</title>
     
-    <!-- Шрифты и иконки -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Подключение твоего CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- ВИДЕО ФОН -->
+    <!-- ВИДЕО ФОН (autoplay=0, чтобы не запускалось само) -->
+    <!-- Замените LXb3EKWsInQ на ID вашего видео (в двух местах) -->
     <iframe class="video-background" 
-            src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1&controls=0&loop=1&playlist=dQw4w9WgXcQ&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1" 
+            id="bgVideo"
+            src="https://www.youtube.com/embed/LXb3EKWsInQ?autoplay=0&mute=1&controls=0&loop=1&playlist=LXb3EKWsInQ&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1" 
             frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
     </iframe>
 
-    <!-- ОВЕРЛЕЙ -->
     <div class="blur-overlay" id="enterOverlay">
         <div class="enter-text" id="enterText">Press to start</div>
     </div>
 
-    <!-- КНОПКА ЗВУКА -->
     <button class="audio-btn" id="audioBtn">
         <i class="fa-solid fa-volume-high" id="audioIcon"></i>
     </button>
 
-    <!-- ПРОФИЛЬ -->
     <div class="profile-container">
         
         <div class="avatar-wrapper">
@@ -53,7 +50,7 @@
             </div>
             <div class="status-text">
                 <div class="name" id="discord-username">Загрузка...</div>
-                <div class="time" id="discord-status-text">Подключение к Discord...</div>
+                <div class="time" id="discord-status-text">Подключение...</div>
             </div>
         </div>
 
@@ -75,7 +72,6 @@
         <i class="fa-solid fa-eye"></i> <span id="viewCount">0</span>
     </div>
 
-    <!-- Подключение твоего JS -->
     <script src="script.js"></script>
 </body>
 </html>

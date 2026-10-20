@@ -1,16 +1,25 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- 1. ЛОГИКА ВХОДА (Клик по экрану) ---
+    // --- 1. ЛОГИКА ВХОДА (Клик по экрану + запуск видео) ---
     const overlay = document.getElementById('enterOverlay');
     const enterText = document.getElementById('enterText');
+    const bgVideo = document.getElementById('bgVideo');
     
     overlay.addEventListener('click', () => {
-        // Добавляем класс, который запускает все CSS-анимации
+        // Добавляем класс для анимаций
         document.body.classList.add('entered');
         
-        // Принудительно убираем текст через полсекунды, чтобы точно не мешал
+        // Убираем текст
         setTimeout(() => { 
             enterText.style.display = 'none'; 
         }, 500);
+
+        // Запускаем видео: меняем autoplay=0 на autoplay=1
+        if (bgVideo) {
+            const videoSrc = bgVideo.src;
+            if (!videoSrc.includes('autoplay=1')) {
+                bgVideo.src = videoSrc.replace('autoplay=0', 'autoplay=1');
+            }
+        }
     });
 
     // --- 2. КНОПКА ЗВУКА (Визуальная) ---
@@ -36,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentViews = localStorage.getItem('siteViews');
     
     if (currentViews === null) {
-        currentViews = 0; // Начинаем с 0
+        currentViews = 0;
     } else {
         currentViews = parseInt(currentViews);
     }
@@ -44,12 +53,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const hasVisited = sessionStorage.getItem('hasVisited');
 
     if (!hasVisited) {
-        // Если зашел впервые за сессию — прибавляем 1
         currentViews += 1;
         localStorage.setItem('siteViews', currentViews);
         sessionStorage.setItem('hasVisited', 'true');
         
-        // Запускаем анимацию счета с задержкой, чтобы она началась после появления счетчика
         setTimeout(() => {
             viewCountElement.textContent = currentViews;
             viewsContainer.classList.add('bump');
@@ -63,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
         viewCountElement.textContent = currentViews;
     }
 
-    // --- 4. ИНТЕГРАЦИЯ С DISCORD (Lanyard API) ---
+    // --- 4. ИНТЕГРАЦИЯ С DISCORD ---
     const discordId = '928916025070735390'; 
     const apiUrl = `https://api.lanyard.rest/v1/users/${discordId}`;
 
@@ -75,16 +82,13 @@ document.addEventListener('DOMContentLoaded', () => {
             if (data.success) {
                 const user = data.data;
                 
-                // Аватарка
                 const avatarUrl = user.discord_user.avatar 
                     ? `https://cdn.discordapp.com/avatars/${discordId}/${user.discord_user.avatar}.png?size=128` 
                     : 'https://cdn.discordapp.com/embed/avatars/0.png';
                 document.getElementById('discord-avatar').src = avatarUrl;
 
-                // Никнейм
                 document.getElementById('discord-username').textContent = user.discord_user.username;
 
-                // Статус
                 const statusDot = document.getElementById('discord-status-dot');
                 const statusText = document.getElementById('discord-status-text');
                 
@@ -112,7 +116,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Запускаем получение статуса сразу и обновляем каждые 15 секунд
     fetchDiscordStatus();
     setInterval(fetchDiscordStatus, 15000);
 });
