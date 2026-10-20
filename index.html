@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Default</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Подключение CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Кнопка звука -->
+    <button class="audio-btn" id="audioBtn">
+        <i class="fa-solid fa-volume-high" id="audioIcon"></i>
+    </button>
+
+    <!-- Невидимый аудио-плеер (добавьте свой трек) -->
+    <audio id="bgMusic" loop>
+        <!-- <source src="your-music.mp3" type="audio/mpeg"> -->
+    </audio>
+
+    <div class="profile-container">
+        
+        <div class="avatar-wrapper">
+            <img src="https://i.pravatar.cc/300?img=11" alt="Avatar" class="avatar">
+            <div class="avatar-subtitle">✦ мой прайм ✦</div>
+        </div>
+
+        <!-- Добавили id для JS -->
+        <h1 class="username" id="username">Default</h1>
+        <div class="bio">13 yo talent in cs2</div>
+        
+        <div class="location">
+            <i class="fa-solid fa-location-dot"></i>
+            Ateptsevo
+        </div>
+
+        <div class="status-card">
+            <img src="https://i.pravatar.cc/300?img=11" alt="Mini Avatar">
+            <div class="status-text">
+                <div class="name">default</div>
+                <div class="time">last seen 7 days ago</div>
+            </div>
+        </div>
+
+        <div class="social-links">
+            <a href="#"><i class="fa-solid fa-compact-disc"></i></a>
+            <a href="#"><i class="fa-solid fa-comment-dots"></i></a>
+            <a href="#"><i class="fa-brands fa-discord"></i></a>
+            <a href="#"><i class="fa-brands fa-telegram"></i></a>
+        </div>
+
+    </div>
+
+    <div class="views">
+        <i class="fa-solid fa-eye"></i> <span id="viewCount">20</span>
+    </div>
+
+    <!-- Подключение JS в самом конце -->
+    <script src="script.js"></script>
+</body>
+</html>
