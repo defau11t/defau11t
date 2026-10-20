@@ -5,33 +5,193 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile - Default</title>
     
+    <!-- Шрифты и иконки -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Подключение CSS -->
-    <link rel="stylesheet" href="style.css">
+    <!-- ВЕСЬ CSS ВНУТРИ HTML -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            /* Фон: затемнение + картинка */
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1517581177682-a085bb7ffb15?q=80&w=2072&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            overflow: hidden; /* Убирает лишние полосы прокрутки */
+        }
+
+        .audio-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: white;
+            padding: 10px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: 0.3s;
+        }
+
+        .audio-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .profile-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .avatar-wrapper {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+        }
+
+        .avatar-subtitle {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 11px;
+            color: #a3a3a3;
+            white-space: nowrap;
+        }
+
+        .username {
+            font-size: 42px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-top: 15px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .bio {
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .location {
+            font-size: 13px;
+            color: #d4d4d4;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+
+        .status-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px 10px 10px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .status-card img {
+            width: 45px;
+            height: 45px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .status-text {
+            text-align: left;
+        }
+
+        .status-text .name {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .status-text .time {
+            font-size: 12px;
+            color: #b3b3b3;
+            margin-top: 2px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 20px;
+            margin-top: 30px;
+            font-size: 24px;
+        }
+
+        .social-links a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: transform 0.2s, color 0.2s;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+
+        .social-links a:hover {
+            transform: scale(1.1);
+            color: #a3a3a3;
+        }
+
+        .views {
+            position: absolute;
+            bottom: 40px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            color: #b3b3b3;
+        }
+        
+        /* Плавное появление */
+        body { opacity: 0; transition: opacity 1s; }
+        body.loaded { opacity: 1; }
+    </style>
 </head>
 <body>
 
-    <!-- Кнопка звука -->
     <button class="audio-btn" id="audioBtn">
         <i class="fa-solid fa-volume-high" id="audioIcon"></i>
     </button>
 
-    <!-- Невидимый аудио-плеер (добавьте свой трек) -->
-    <audio id="bgMusic" loop>
-        <!-- <source src="your-music.mp3" type="audio/mpeg"> -->
-    </audio>
-
     <div class="profile-container">
         
         <div class="avatar-wrapper">
+            <!-- Сюда вставьте ссылку на вашу аватарку -->
             <img src="https://i.pravatar.cc/300?img=11" alt="Avatar" class="avatar">
             <div class="avatar-subtitle">✦ мой прайм ✦</div>
         </div>
 
-        <!-- Добавили id для JS -->
-        <h1 class="username" id="username">Default</h1>
+        <h1 class="username">Default</h1>
         <div class="bio">13 yo talent in cs2</div>
         
         <div class="location">
@@ -40,6 +200,7 @@
         </div>
 
         <div class="status-card">
+            <!-- Сюда тоже вашу аватарку -->
             <img src="https://i.pravatar.cc/300?img=11" alt="Mini Avatar">
             <div class="status-text">
                 <div class="name">default</div>
@@ -57,10 +218,30 @@
     </div>
 
     <div class="views">
-        <i class="fa-solid fa-eye"></i> <span id="viewCount">20</span>
+        <i class="fa-solid fa-eye"></i> 20
     </div>
 
-    <!-- Подключение JS в самом конце -->
-    <script src="script.js"></script>
+    <!-- Скрипт для плавного появления -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.classList.add('loaded');
+            
+            // Логика кнопки звука (визуальная)
+            const audioBtn = document.getElementById('audioBtn');
+            const audioIcon = document.getElementById('audioIcon');
+            let isPlaying = false;
+            
+            audioBtn.addEventListener('click', () => {
+                isPlaying = !isPlaying;
+                if(isPlaying) {
+                    audioIcon.classList.remove('fa-volume-high');
+                    audioIcon.classList.add('fa-volume-xmark');
+                } else {
+                    audioIcon.classList.remove('fa-volume-xmark');
+                    audioIcon.classList.add('fa-volume-high');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
