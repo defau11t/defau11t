@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
         viewCountElement.textContent = currentViews;
     }
 
-    // --- 3. СНЕГ ---
+    // --- 3. СНЕГ (ТОЛЬКО БЕЛЫЙ) ---
     const canvas = document.getElementById('snow-canvas');
     const ctx = canvas.getContext('2d');
     
@@ -60,7 +60,8 @@ document.addEventListener('DOMContentLoaded', () => {
             this.speedX = Math.random() * 0.6 - 0.3; 
             this.opacity = Math.random() * 0.5 + 0.2;
             this.wobble = Math.random() * Math.PI * 2;
-            this.color = Math.random() > 0.7 ? '0, 255, 255' : '255, 255, 255';
+            // Только белый цвет
+            this.color = '255, 255, 255';
         }
 
         update() {
