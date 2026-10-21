@@ -55,15 +55,16 @@ document.addEventListener('DOMContentLoaded', () => {
         viewCountElement.textContent = currentViews;
     }
 
-    // --- 4. ИНТЕГРАЦИЯ С DISCORD (Lanyard) ---
+    // --- 4. ИНТЕГРАЦИЯ С DISCORD (через прокси) ---
     const discordId = '928916025070735390'; 
-    const apiUrl = `https://api.lanyard.rest/v1/users/${discordId}`;
+    
+    // Используем публичный CORS-прокси, чтобы обойти блокировку Lanyard
+    const apiUrl = `https://corsproxy.io/?https://api.lanyard.rest/v1/users/${discordId}`;
 
     async function fetchDiscordStatus() {
         try {
             const response = await fetch(apiUrl);
             
-            // Проверяем статус ответа
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
             
             const data = await response.json();
@@ -80,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Ник
                 document.getElementById('discord-username').textContent = user.discord_user.username;
 
-                // Статус (точка и текст)
+                // Статус
                 const statusDot = document.getElementById('discord-status-dot');
                 const statusText = document.getElementById('discord-status-text');
                 
@@ -105,11 +106,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Запускаем сразу и обновляем каждые 15 секунд
     fetchDiscordStatus();
     setInterval(fetchDiscordStatus, 15000);
 
-    // --- 5. СНЕГ (с неоновыми частицами) ---
+    // --- 5. СНЕГ ---
     const canvas = document.getElementById('snow-canvas');
     const ctx = canvas.getContext('2d');
     
