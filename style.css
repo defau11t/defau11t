@@ -30,7 +30,7 @@ body {
     pointer-events: none;
     object-fit: cover;
     opacity: 0.4;
-    filter: grayscale(100%) contrast(1.2); /* Убираем цвета с видео */
+    filter: grayscale(100%) contrast(1.2);
 }
 
 /* --- СНЕГ --- */
@@ -264,4 +264,40 @@ body.entered .views {
     color: #ffffff; 
     transform: scale(1.15);
     text-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+}
+
+/* --- ССЫЛКА НА ПОЧТУ (внизу) --- */
+.email-link-container {
+    position: absolute;
+    bottom: 15px;
+    width: 100%;
+    text-align: center;
+    z-index: 4;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(10px);
+    transition: all 1s ease;
+}
+
+body.entered .email-link-container {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+    transition-delay: 0.8s;
+}
+
+.email-link {
+    font-size: 12px;
+    font-weight: 400;
+    color: #ffffff;
+    text-decoration: none;
+    letter-spacing: 1px;
+    opacity: 0.6;
+    transition: opacity 0.3s, text-shadow 0.3s;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+}
+
+.email-link:hover {
+    opacity: 1;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 0 0 20px rgba(255, 255, 255, 0.3);
 }
