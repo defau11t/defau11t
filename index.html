@@ -5,10 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>defau11t</title>
     
-    <!-- Шрифт Inter для минимализма -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -18,7 +16,7 @@
         <source src="bg.mp4" type="video/mp4">
     </video>
 
-    <!-- КАНВАС ДЛЯ СНЕГА (в стиле guns.lol снег делают мелким и редким) -->
+    <!-- СНЕГ -->
     <canvas id="snow-canvas"></canvas>
 
     <!-- ОВЕРЛЕЙ -->
@@ -35,6 +33,7 @@
     <div class="profile-container">
         
         <div class="avatar-wrapper">
+            <div class="avatar-glow"></div>
             <img src="https://imgs.search.brave.com/VXr-1c-cCqbG_Vi3P1JtkuTFcatOrc1NtKB6ayREX2E/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnJl/ZGQuaXQvYWc1Nmhq/c213dzZkMS5qcGc" alt="Avatar" class="avatar">
         </div>
 
@@ -46,22 +45,9 @@
             Ateptsevo
         </div>
 
-        <!-- Плашка Discord в стиле guns.lol -->
-        <div class="discord-widget">
-            <div class="discord-avatar-container">
-                <img id="discord-avatar" src="https://cdn.discordapp.com/embed/avatars/0.png" alt="Discord Avatar">
-                <div class="status-indicator" id="discord-status-dot"></div>
-            </div>
-            <div class="status-text">
-                <div class="name" id="discord-username">defau11t</div>
-                <div class="time" id="discord-status-text">Loading...</div>
-            </div>
-        </div>
-
-        <!-- Соцсети -->
+        <!-- СОЦСЕТИ -->
         <div class="social-links">
             <a href="https://t.me/defau11t" target="_blank" data-tooltip="Telegram"><i class="fa-brands fa-telegram"></i></a>
-            <a href="https://discord.com/users/928916025070735390" target="_blank" data-tooltip="Discord"><i class="fa-brands fa-discord"></i></a>
             <a href="https://steamcommunity.com/id/defau11t" target="_blank" data-tooltip="Steam"><i class="fa-brands fa-steam"></i></a>
         </div>
     </div>
