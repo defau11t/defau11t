@@ -7,7 +7,6 @@
 }
 
 :root {
-    --white-glow: rgba(255, 255, 255, 0.8);
     --bg-dark: #050505;
 }
 
@@ -269,9 +268,11 @@ body.entered .views {
 /* --- ССЫЛКА НА ПОЧТУ (внизу) --- */
 .email-link-container {
     position: absolute;
-    bottom: 15px;
+    bottom: 20px;
+    left: 0;
     width: 100%;
-    text-align: center;
+    display: flex;
+    justify-content: center;
     z-index: 4;
     opacity: 0;
     pointer-events: none;
@@ -287,17 +288,16 @@ body.entered .email-link-container {
 }
 
 .email-link {
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 400;
     color: #ffffff;
     text-decoration: none;
-    letter-spacing: 1px;
-    opacity: 0.6;
+    letter-spacing: 0.5px;
+    opacity: 0.5;
     transition: opacity 0.3s, text-shadow 0.3s;
-    text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
 }
 
 .email-link:hover {
     opacity: 1;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 0 0 20px rgba(255, 255, 255, 0.3);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.4);
 }
