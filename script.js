@@ -55,7 +55,61 @@ document.addEventListener('DOMContentLoaded', () => {
         viewCountElement.textContent = currentViews;
     }
 
-    // --- 4. СНЕГ (неоновый) ---
+    // --- 4. ИНТЕГРАЦИЯ С DISCORD (Lanyard) ---
+    const discordId = '928916025070735390'; 
+    const apiUrl = `https://api.lanyard.rest/v1/users/${discordId}`;
+
+    async function fetchDiscordStatus() {
+        try {
+            const response = await fetch(apiUrl);
+            
+            // Проверяем статус ответа
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            
+            const data = await response.json();
+
+            if (data.success) {
+                const user = data.data;
+                
+                // Аватарка
+                const avatarUrl = user.discord_user.avatar 
+                    ? `https://cdn.discordapp.com/avatars/${discordId}/${user.discord_user.avatar}.png?size=128` 
+                    : 'https://cdn.discordapp.com/embed/avatars/0.png';
+                document.getElementById('discord-avatar').src = avatarUrl;
+
+                // Ник
+                document.getElementById('discord-username').textContent = user.discord_user.username;
+
+                // Статус (точка и текст)
+                const statusDot = document.getElementById('discord-status-dot');
+                const statusText = document.getElementById('discord-status-text');
+                
+                const colors = { online: '#23a559', idle: '#f0b232', dnd: '#f23f43', offline: '#747f8d' };
+                statusDot.style.backgroundColor = colors[user.discord_status] || colors.offline;
+                statusDot.style.boxShadow = `0 0 10px ${statusDot.style.backgroundColor}`;
+
+                if (user.discord_status === 'offline') {
+                    statusText.textContent = 'Offline';
+                } else if (user.activities && user.activities.length > 0) {
+                    const activity = user.activities[0];
+                    statusText.textContent = activity.name === 'Counter-Strike 2' ? 'Playing CS2' : `Playing ${activity.name}`;
+                } else {
+                    statusText.textContent = 'Online';
+                }
+            } else {
+                document.getElementById('discord-status-text').textContent = 'Not monitored';
+            }
+        } catch (error) {
+            console.error('Discord API error:', error);
+            document.getElementById('discord-status-text').textContent = 'Error';
+        }
+    }
+
+    // Запускаем сразу и обновляем каждые 15 секунд
+    fetchDiscordStatus();
+    setInterval(fetchDiscordStatus, 15000);
+
+    // --- 5. СНЕГ (с неоновыми частицами) ---
     const canvas = document.getElementById('snow-canvas');
     const ctx = canvas.getContext('2d');
     
@@ -78,7 +132,6 @@ document.addEventListener('DOMContentLoaded', () => {
             this.speedX = Math.random() * 0.6 - 0.3; 
             this.opacity = Math.random() * 0.5 + 0.2;
             this.wobble = Math.random() * Math.PI * 2;
-            // Неоновые цвета: циан или белый
             this.color = Math.random() > 0.7 ? '0, 255, 255' : '255, 255, 255';
         }
 
