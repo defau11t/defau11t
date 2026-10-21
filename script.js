@@ -13,25 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- 2. КНОПКА ЗВУКА ---
-    const audioBtn = document.getElementById('audioBtn');
-    const audioIcon = document.getElementById('audioIcon');
-    let isPlaying = false;
-    
-    audioBtn.addEventListener('click', () => {
-        isPlaying = !isPlaying;
-        if (isPlaying) {
-            audioIcon.classList.remove('fa-volume-xmark');
-            audioIcon.classList.add('fa-volume-high');
-            if (bgVideo) bgVideo.muted = false; 
-        } else {
-            audioIcon.classList.remove('fa-volume-high');
-            audioIcon.classList.add('fa-volume-xmark');
-            if (bgVideo) bgVideo.muted = true; 
-        }
-    });
-
-    // --- 3. СЧЕТЧИК ПРОСМОТРОВ ---
+    // --- 2. СЧЕТЧИК ПРОСМОТРОВ ---
     const viewCountElement = document.getElementById('viewCount');
     const viewsContainer = document.getElementById('viewsContainer');
     let currentViews = localStorage.getItem('siteViews');
@@ -55,61 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
         viewCountElement.textContent = currentViews;
     }
 
-    // --- 4. ИНТЕГРАЦИЯ С DISCORD (через прокси) ---
-    const discordId = '928916025070735390'; 
-    
-    // Используем публичный CORS-прокси, чтобы обойти блокировку Lanyard
-    const apiUrl = `https://corsproxy.io/?https://api.lanyard.rest/v1/users/${discordId}`;
-
-    async function fetchDiscordStatus() {
-        try {
-            const response = await fetch(apiUrl);
-            
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            
-            const data = await response.json();
-
-            if (data.success) {
-                const user = data.data;
-                
-                // Аватарка
-                const avatarUrl = user.discord_user.avatar 
-                    ? `https://cdn.discordapp.com/avatars/${discordId}/${user.discord_user.avatar}.png?size=128` 
-                    : 'https://cdn.discordapp.com/embed/avatars/0.png';
-                document.getElementById('discord-avatar').src = avatarUrl;
-
-                // Ник
-                document.getElementById('discord-username').textContent = user.discord_user.username;
-
-                // Статус
-                const statusDot = document.getElementById('discord-status-dot');
-                const statusText = document.getElementById('discord-status-text');
-                
-                const colors = { online: '#23a559', idle: '#f0b232', dnd: '#f23f43', offline: '#747f8d' };
-                statusDot.style.backgroundColor = colors[user.discord_status] || colors.offline;
-                statusDot.style.boxShadow = `0 0 10px ${statusDot.style.backgroundColor}`;
-
-                if (user.discord_status === 'offline') {
-                    statusText.textContent = 'Offline';
-                } else if (user.activities && user.activities.length > 0) {
-                    const activity = user.activities[0];
-                    statusText.textContent = activity.name === 'Counter-Strike 2' ? 'Playing CS2' : `Playing ${activity.name}`;
-                } else {
-                    statusText.textContent = 'Online';
-                }
-            } else {
-                document.getElementById('discord-status-text').textContent = 'Not monitored';
-            }
-        } catch (error) {
-            console.error('Discord API error:', error);
-            document.getElementById('discord-status-text').textContent = 'Error';
-        }
-    }
-
-    fetchDiscordStatus();
-    setInterval(fetchDiscordStatus, 15000);
-
-    // --- 5. СНЕГ ---
+    // --- 3. СНЕГ ---
     const canvas = document.getElementById('snow-canvas');
     const ctx = canvas.getContext('2d');
     
