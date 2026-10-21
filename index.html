@@ -5,196 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>defau11t</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Шрифт Inter для минимализма -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-
-        body {
-            height: 100vh; width: 100vw; overflow: hidden;
-            background-color: #000; color: #fff;
-        }
-
-        /* --- ВИДЕО ФОН --- */
-        .video-background {
-            position: absolute; top: 50%; left: 50%;
-            min-width: 100%; min-height: 100%; width: auto; height: auto;
-            transform: translate(-50%, -50%); z-index: -2; pointer-events: none;
-            object-fit: cover;
-        }
-
-        /* --- ЭФФЕКТ СНЕГА (Canvas) --- */
-        #snow-canvas {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: -1; /* Снег поверх видео, но под контентом */
-            pointer-events: none;
-        }
-
-        /* --- ОВЕРЛЕЙ И НАДПИСЬ --- */
-        .blur-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            backdrop-filter: blur(20px); background: rgba(0, 0, 0, 0.4);
-            z-index: 1; display: flex; justify-content: center; align-items: center;
-            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer;
-        }
-
-        .enter-text {
-            font-size: 24px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase;
-            animation: pulse 2s infinite; text-shadow: 0 0 10px rgba(255,255,255,0.5);
-            transition: opacity 0.5s ease;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 0.7; }
-            50% { transform: scale(1.05); opacity: 1; }
-            100% { transform: scale(1); opacity: 0.7; }
-        }
-
-        body.entered .blur-overlay { backdrop-filter: blur(0px); background: rgba(0, 0, 0, 0.5); pointer-events: none; }
-        body.entered .enter-text { display: none; }
-
-        /* --- ПРОФИЛЬ --- */
-        .profile-container {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            text-align: center; z-index: 2; opacity: 0; transform: translateY(40px);
-            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1); pointer-events: none;
-        }
-
-        body.entered .profile-container {
-            opacity: 1; transform: translateY(0); pointer-events: auto; transition-delay: 0.3s;
-        }
-
-        /* --- КНОПКА ЗВУКА --- */
-        .audio-btn {
-            position: absolute; top: 20px; left: 20px; background: rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.1); color: white; padding: 10px 12px;
-            border-radius: 8px; cursor: pointer; font-size: 18px; transition: all 1s ease; 
-            z-index: 3; opacity: 0; pointer-events: none; transform: translateY(-10px);
-        }
-
-        body.entered .audio-btn {
-            opacity: 1; pointer-events: auto; transform: translateY(0);
-            transition-delay: 0.5s;
-        }
-
-        .audio-btn:hover { background: rgba(255, 255, 255, 0.2); }
-
-        /* --- АВАТАРКА --- */
-        .avatar-wrapper { position: relative; margin-bottom: 20px; }
-
-        .avatar {
-            width: 120px; height: 120px; border-radius: 50%; object-fit: cover;
-            border: 2px solid rgba(255, 255, 255, 0.2); box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
-        }
-
-        .username {
-            font-size: 42px; font-weight: 700; letter-spacing: 1px; margin-top: 15px;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.3);
-        }
-
-        .bio { font-size: 18px; font-weight: 600; margin-top: 5px; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
-
-        .location {
-            font-size: 13px; color: #d4d4d4; margin-top: 15px; display: flex; align-items: center;
-            gap: 6px; background: rgba(0, 0, 0, 0.4); padding: 4px 10px; border-radius: 20px;
-        }
-
-        /* --- ПЛАШКА ДИСКОРДА --- */
-        .discord-widget {
-            background: rgba(43, 45, 49, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            padding: 10px 25px 10px 10px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-top: 25px;
-            min-width: 220px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-        }
-
-        .discord-avatar-container { position: relative; width: 50px; height: 50px; }
-        .discord-avatar-container img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
-
-        .status-indicator {
-            position: absolute; bottom: 0; right: 0;
-            width: 14px; height: 14px; border-radius: 50%;
-            border: 3px solid #2b2d31;
-            background-color: #747f8d;
-            transition: background-color 0.3s;
-        }
-
-        .status-text { text-align: left; }
-        .status-text .name { font-size: 16px; font-weight: 600; color: #f2f3f5; }
-        .status-text .time { font-size: 13px; color: #b3b3b3; margin-top: 2px; }
-
-        /* --- СОЦСЕТИ --- */
-        .social-links { display: flex; gap: 25px; margin-top: 35px; font-size: 26px; }
-
-        .social-links a {
-            color: #ffffff; text-decoration: none; position: relative;
-            transition: transform 0.2s, color 0.2s; text-shadow: 0 0 10px rgba(255,255,255,0.5);
-        }
-
-        .social-links a:hover { transform: scale(1.15); color: #a3a3a3; }
-
-        .social-links a::after {
-            content: attr(data-tooltip); position: absolute; bottom: -35px; left: 50%;
-            transform: translateX(-50%) translateY(10px); background: rgba(0, 0, 0, 0.8);
-            padding: 5px 10px; border-radius: 6px; font-size: 12px; font-weight: 600;
-            white-space: nowrap; opacity: 0; pointer-events: none; transition: all 0.3s ease;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .social-links a:hover::after { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-        /* --- СЧЕТЧИК --- */
-        .views { 
-            position: absolute; bottom: 40px; display: flex; align-items: center; gap: 6px; 
-            font-size: 14px; color: #b3b3b3; z-index: 3; 
-            transition: all 1s ease;
-            opacity: 0; pointer-events: none; transform: translateY(10px);
-        }
-
-        body.entered .views {
-            opacity: 1; pointer-events: auto; transform: translateY(0);
-            transition-delay: 0.5s;
-        }
-
-        .views.bump {
-            color: #fff; transform: scale(1.2);
-            text-shadow: 0 0 10px rgba(255,255,255,0.8);
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- ВИДЕО ФОН (Локальное) -->
+    <!-- ВИДЕО ФОН -->
     <video class="video-background" id="bgVideo" muted loop playsinline>
         <source src="bg.mp4" type="video/mp4">
     </video>
 
-    <!-- КАНВАС ДЛЯ СНЕГА -->
+    <!-- КАНВАС ДЛЯ СНЕГА (в стиле guns.lol снег делают мелким и редким) -->
     <canvas id="snow-canvas"></canvas>
 
+    <!-- ОВЕРЛЕЙ -->
     <div class="blur-overlay" id="enterOverlay">
-        <div class="enter-text" id="enterText">Press to start</div>
+        <div class="enter-text" id="enterText">Click to enter</div>
     </div>
 
+    <!-- КНОПКА ЗВУКА -->
     <button class="audio-btn" id="audioBtn">
-        <i class="fa-solid fa-volume-high" id="audioIcon"></i>
+        <i class="fa-solid fa-volume-xmark" id="audioIcon"></i>
     </button>
 
+    <!-- ПРОФИЛЬ -->
     <div class="profile-container">
         
         <div class="avatar-wrapper">
             <img src="https://imgs.search.brave.com/VXr-1c-cCqbG_Vi3P1JtkuTFcatOrc1NtKB6ayREX2E/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnJl/ZGQuaXQvYWc1Nmhq/c213dzZkMS5qcGc" alt="Avatar" class="avatar">
-            <!-- Подпись "мой прайм" убрана -->
         </div>
 
         <h1 class="username">defau11t</h1>
@@ -205,192 +46,31 @@
             Ateptsevo
         </div>
 
+        <!-- Плашка Discord в стиле guns.lol -->
         <div class="discord-widget">
             <div class="discord-avatar-container">
                 <img id="discord-avatar" src="https://cdn.discordapp.com/embed/avatars/0.png" alt="Discord Avatar">
                 <div class="status-indicator" id="discord-status-dot"></div>
             </div>
             <div class="status-text">
-                <div class="name" id="discord-username">Загрузка...</div>
-                <div class="time" id="discord-status-text">Подключение...</div>
+                <div class="name" id="discord-username">defau11t</div>
+                <div class="time" id="discord-status-text">Loading...</div>
             </div>
         </div>
 
+        <!-- Соцсети -->
         <div class="social-links">
-            <a href="https://t.me/defau11t" target="_blank" data-tooltip="t.me/defau11t"><i class="fa-brands fa-telegram"></i></a>
-            <a href="https://discord.com/users/928916025070735390" target="_blank" data-tooltip="Discord: defau11t"><i class="fa-brands fa-discord"></i></a>
-            <a href="#" target="_blank" data-tooltip="Steam: defau11t"><i class="fa-brands fa-steam"></i></a>
+            <a href="https://t.me/defau11t" target="_blank" data-tooltip="Telegram"><i class="fa-brands fa-telegram"></i></a>
+            <a href="https://discord.com/users/928916025070735390" target="_blank" data-tooltip="Discord"><i class="fa-brands fa-discord"></i></a>
+            <a href="https://steamcommunity.com/id/defau11t" target="_blank" data-tooltip="Steam"><i class="fa-brands fa-steam"></i></a>
         </div>
     </div>
 
+    <!-- СЧЕТЧИК -->
     <div class="views" id="viewsContainer">
-        <i class="fa-solid fa-eye"></i> <span id="viewCount">0</span>
+        <i class="fa-regular fa-eye"></i> <span id="viewCount">0</span>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // --- 1. ЛОГИКА ВХОДА И ЗАПУСКА ВИДЕО ---
-            const overlay = document.getElementById('enterOverlay');
-            const enterText = document.getElementById('enterText');
-            const bgVideo = document.getElementById('bgVideo');
-            
-            overlay.addEventListener('click', () => {
-                document.body.classList.add('entered');
-                
-                setTimeout(() => { 
-                    enterText.style.display = 'none'; 
-                }, 500);
-
-                // Пытаемся запустить видео
-                if (bgVideo) {
-                    bgVideo.play().catch(e => {
-                        console.log("Браузер заблокировал автозапуск или видео не найдено:", e);
-                    });
-                }
-            });
-
-            // --- 2. КНОПКА ЗВУКА ---
-            const audioBtn = document.getElementById('audioBtn');
-            const audioIcon = document.getElementById('audioIcon');
-            let isPlaying = false;
-            
-            audioBtn.addEventListener('click', () => {
-                isPlaying = !isPlaying;
-                if (isPlaying) {
-                    audioIcon.classList.remove('fa-volume-high');
-                    audioIcon.classList.add('fa-volume-xmark');
-                    if (bgVideo) bgVideo.muted = false; 
-                } else {
-                    audioIcon.classList.remove('fa-volume-xmark');
-                    audioIcon.classList.add('fa-volume-high');
-                    if (bgVideo) bgVideo.muted = true; 
-                }
-            });
-
-            // --- 3. СЧЕТЧИК ПРОСМОТРОВ ---
-            const viewCountElement = document.getElementById('viewCount');
-            const viewsContainer = document.getElementById('viewsContainer');
-            let currentViews = localStorage.getItem('siteViews');
-            
-            if (currentViews === null) { currentViews = 0; } 
-            else { currentViews = parseInt(currentViews); }
-
-            const hasVisited = sessionStorage.getItem('hasVisited');
-
-            if (!hasVisited) {
-                currentViews += 1;
-                localStorage.setItem('siteViews', currentViews);
-                sessionStorage.setItem('hasVisited', 'true');
-                
-                setTimeout(() => {
-                    viewCountElement.textContent = currentViews;
-                    viewsContainer.classList.add('bump');
-                    setTimeout(() => { viewsContainer.classList.remove('bump'); }, 500);
-                }, 1500); 
-            } else {
-                viewCountElement.textContent = currentViews;
-            }
-
-            // --- 4. ИНТЕГРАЦИЯ С DISCORD ---
-            const discordId = '928916025070735390'; 
-            const apiUrl = `https://api.lanyard.rest/v1/users/${discordId}`;
-
-            async function fetchDiscordStatus() {
-                try {
-                    const response = await fetch(apiUrl);
-                    const data = await response.json();
-
-                    if (data.success) {
-                        const user = data.data;
-                        const avatarUrl = user.discord_user.avatar 
-                            ? `https://cdn.discordapp.com/avatars/${discordId}/${user.discord_user.avatar}.png?size=128` 
-                            : 'https://cdn.discordapp.com/embed/avatars/0.png';
-                        document.getElementById('discord-avatar').src = avatarUrl;
-
-                        document.getElementById('discord-username').textContent = user.discord_user.username;
-                        const statusDot = document.getElementById('discord-status-dot');
-                        const statusText = document.getElementById('discord-status-text');
-                        
-                        const colors = { online: '#23a559', idle: '#f0b232', dnd: '#f23f43', offline: '#80848e' };
-                        statusDot.style.backgroundColor = colors[user.discord_status] || colors.offline;
-
-                        if (user.discord_status === 'offline') statusText.textContent = 'Не в сети';
-                        else if (user.activities && user.activities.length > 0) statusText.textContent = `Играет в ${user.activities[0].name}`;
-                        else statusText.textContent = 'В сети';
-                    }
-                } catch (error) {
-                    console.error('Ошибка Discord API:', error);
-                }
-            }
-            fetchDiscordStatus();
-            setInterval(fetchDiscordStatus, 15000);
-
-            // --- 5. ЭФФЕКТ СНЕГА (Частицы) ---
-            const canvas = document.getElementById('snow-canvas');
-            const ctx = canvas.getContext('2d');
-            
-            // Подгоняем размер канваса под экран
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-
-            const particles = [];
-            const particleCount = 100; // Количество снежинок
-
-            // Класс снежинки
-            class Particle {
-                constructor() {
-                    this.x = Math.random() * canvas.width;
-                    this.y = Math.random() * canvas.height;
-                    this.size = Math.random() * 2 + 1; // Размер от 1 до 3
-                    this.speedY = Math.random() * 1 + 0.5; // Скорость падения
-                    this.speedX = Math.random() * 1 - 0.5; // Покачивание
-                    this.opacity = Math.random() * 0.5 + 0.3;
-                }
-
-                update() {
-                    this.y += this.speedY;
-                    this.x += this.speedX;
-
-                    // Если снежинка упала вниз или улетела вбок - возвращаем наверх
-                    if (this.y > canvas.height) {
-                        this.y = 0;
-                        this.x = Math.random() * canvas.width;
-                    }
-                    if (this.x > canvas.width) this.x = 0;
-                    if (this.x < 0) this.x = canvas.width;
-                }
-
-                draw() {
-                    ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-            }
-
-            // Создаем снежинки
-            for (let i = 0; i < particleCount; i++) {
-                particles.push(new Particle());
-            }
-
-            // Анимация
-            function animateSnow() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                particles.forEach(p => {
-                    p.update();
-                    p.draw();
-                });
-                requestAnimationFrame(animateSnow);
-            }
-
-            animateSnow();
-
-            // Обновляем размер канваса при изменении окна
-            window.addEventListener('resize', () => {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            });
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
