@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 500);
 
         if (bgVideo) {
-            bgVideo.muted = true; // Начинаем без звука
+            bgVideo.muted = true; 
             bgVideo.play().catch(e => {
                 console.log("Ошибка запуска видео (возможно, файл bg.mp4 не найден):", e);
             });
@@ -95,34 +95,51 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchDiscordStatus();
     setInterval(fetchDiscordStatus, 15000);
 
-    // --- 5. ЭФФЕКТ СНЕГА (Мелкий и редкий, как в guns.lol) ---
+    // --- 5. УЛУЧШЕННЫЙ ЭФФЕКТ СНЕГА ---
     const canvas = document.getElementById('snow-canvas');
     const ctx = canvas.getContext('2d');
     
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    // Делаем канвас на весь экран
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
 
     const particles = [];
-    const particleCount = 60; // Меньше частиц для элегантности
+    const particleCount = 150; // Больше частиц для густого снега
 
-    class Particle {
+    class Snowflake {
         constructor() {
             this.x = Math.random() * canvas.width;
             this.y = Math.random() * canvas.height;
-            this.size = Math.random() * 1.5 + 0.5; // Мелкие частицы
-            this.speedY = Math.random() * 0.8 + 0.2; // Медленное падение
-            this.speedX = Math.random() * 0.4 - 0.2;
-            this.opacity = Math.random() * 0.4 + 0.1; // Едва заметные
+            // Размер снежинки от 0.5 до 2.5 пикселей
+            this.size = Math.random() * 2 + 0.5; 
+            // Скорость падения
+            this.speedY = Math.random() * 1.5 + 0.5; 
+            // Легкое покачивание в стороны
+            this.speedX = Math.random() * 0.8 - 0.4; 
+            // Прозрачность (от 0.3 до 0.8)
+            this.opacity = Math.random() * 0.5 + 0.3;
+            // Индивидуальная фаза для покачивания
+            this.wobble = Math.random() * Math.PI * 2;
         }
 
         update() {
+            // Движение вниз
             this.y += this.speedY;
-            this.x += this.speedX;
+            
+            // Покачивание (синусоида)
+            this.wobble += 0.02;
+            this.x += Math.sin(this.wobble) * 0.5 + this.speedX;
 
+            // Если снежинка упала за нижний край — возвращаем наверх
             if (this.y > canvas.height) {
-                this.y = 0;
+                this.y = -10;
                 this.x = Math.random() * canvas.width;
             }
+            // Если улетела вбок — возвращаем
             if (this.x > canvas.width) this.x = 0;
             if (this.x < 0) this.x = canvas.width;
         }
@@ -135,23 +152,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Создаем снежинки
     for (let i = 0; i < particleCount; i++) {
-        particles.push(new Particle());
+        particles.push(new Snowflake());
     }
 
+    // Анимация
     function animateSnow() {
+        // Очищаем канвас
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Обновляем и рисуем каждую снежинку
         particles.forEach(p => {
             p.update();
             p.draw();
         });
+        
         requestAnimationFrame(animateSnow);
     }
 
     animateSnow();
-
-    window.addEventListener('resize', () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    });
 });
